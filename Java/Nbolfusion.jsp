@@ -1,6 +1,6 @@
 <%-- 
-    Document   : Nbojide
-    Created on : 2018/02/23, 13:39:39
+    Document   : nobolb
+    Created on : 2018/02/23, 16:22:24
     Author     : guest1Day
 --%>
 
@@ -13,11 +13,15 @@
     </head>
     <body>
         <%
-          int chomp = 226;
-          String text = "私の名前は池下輝です";
-        out.print (chomp);  
-
-        %>
-          
+            
+            final String Gr = "groove";
+            String Chain = "-";
+            String GAIA ="gear";
+            
+           out.print( Gr + Chain + GAIA);
+           
+            
+    %>
+    
     </body>
 </html>
