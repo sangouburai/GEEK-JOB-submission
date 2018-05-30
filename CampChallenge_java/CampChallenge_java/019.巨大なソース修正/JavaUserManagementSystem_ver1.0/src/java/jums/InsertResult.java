@@ -30,17 +30,27 @@ public class InsertResult extends HttpServlet {
             throws ServletException, IOException {
         
         //セッションスタート
-        HttpSession session = request.getSession();
+        //HttpSession session = request.getSession();
         
         try{
-            //ユーザー情報に対応したJavaBeansオブジェクトに格納していく
+            //開発タスク第一段階・2項目目 直リンク防止用処理
+            HttpSession session = request.getSession();
+            request.setCharacterEncoding("UTF-8");
+            String inpuchecker = request.getParameter("ac");
+            if(inpuchecker ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(inpuchecker)){
+                   throw new Exception("不正なアクセスです");
+            }
+            
+           //ユーザー情報に対応したJavaBeansオブジェクトに格納していく
             UserDataDTO userdata = new UserDataDTO();
-            userdata.setName((String)session.getAttribute("name"));
+            UserDataBeans udb = (UserDataBeans) session.getAttribute("UDBValue");
+            userdata.setName((String)udb.getName());
             Calendar birthday = Calendar.getInstance();
-            userdata.setBirthday(birthday.getTime());
-            userdata.setType(Integer.parseInt((String)session.getAttribute("type")));
-            userdata.setTell((String)session.getAttribute("tell"));
-            userdata.setComment((String)session.getAttribute("comment"));
+            birthday.set(Integer.parseInt(udb.getYear()),Integer.parseInt(udb.getMonth()),Integer.parseInt(udb.getDay()));
+            userdata.setBirthday(birthday.getTime()); //課題6
+            userdata.setType(Integer.parseInt((String)udb.getType()));
+            userdata.setTell((String)udb.getTell());
+            userdata.setComment((String)udb.getComment());
             
             //DBへデータの挿入
             UserDataDAO .getInstance().insert(userdata);

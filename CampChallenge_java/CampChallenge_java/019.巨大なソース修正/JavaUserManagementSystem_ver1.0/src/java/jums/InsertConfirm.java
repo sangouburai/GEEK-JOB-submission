@@ -30,9 +30,9 @@ public class InsertConfirm extends HttpServlet {
             HttpSession session = request.getSession();
             request.setCharacterEncoding("UTF-8");//セッションに格納する文字コードをUTF-8に変更
             String accesschk = request.getParameter("ac");
-            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
-                throw new Exception("不正なアクセスです");
-            }
+                if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
+                    throw new Exception("不正なアクセスです");
+                }
             
             //フォームからの入力を取得
             String name = request.getParameter("name");
@@ -42,16 +42,13 @@ public class InsertConfirm extends HttpServlet {
             String type = request.getParameter("type");
             String tell = request.getParameter("tell");
             String comment = request.getParameter("comment");
-
-            //セッションに格納
-            session.setAttribute("name", name);
-            session.setAttribute("year", year);
-            session.setAttribute("month",month);
-            session.setAttribute("day", day);
-            session.setAttribute("type", type);
-            session.setAttribute("tell", tell);
-            session.setAttribute("comment", comment);
-            System.out.println("Session updated!!");
+            
+            //課題3　フォームから受け取る情報を格納するためのUserDataBeansを利用する
+            UserDataBeans UDB = new UserDataBeans(name,year,month,day,type,tell,comment); //UserDataBeansをインスタンス化
+            
+            //セッションにUDBを格納する
+            
+            session.setAttribute("UDBValue",UDB);
             
             request.getRequestDispatcher("/insertconfirm.jsp").forward(request, response);
         }catch(Exception e){
